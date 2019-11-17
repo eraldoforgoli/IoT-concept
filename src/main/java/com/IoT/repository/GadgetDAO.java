@@ -1,4 +1,4 @@
-package com.IoT.Repository;
+package com.IoT.repository;
 
 import com.IoT.model.Gadget;
 import com.IoT.model.Room;
@@ -11,8 +11,8 @@ import java.util.List;
 public class GadgetDAO {
     private Config config;
 
-    public GadgetDAO() {
-        config = new Config();
+    public GadgetDAO(Config config) {
+        this.config = config;
     }
 
 
@@ -21,7 +21,7 @@ public class GadgetDAO {
     }
 
     public Gadget insertGadget(Gadget gadget) {
-        DBCollection collection = config.getClient().getDB("localhost").getCollection("Gadget");
+        DBCollection collection = config.getDb().getCollection("Gadget");
 
         List<BasicDBObject> rooms = new ArrayList<>();
 
@@ -39,11 +39,11 @@ public class GadgetDAO {
         return gadget;
     }
 
-    public void readFromDatabase() {
-        DBCollection collection = config.getClient().getDB("localhost").getCollection("Gadget");
+    public void readGadgetFromDatabase(String name) {
+        DBCollection collection = config.getDb().getCollection("Gadget");
 
         BasicDBObject searchQuery = new BasicDBObject();
-        searchQuery.put("name", "cimi");
+        searchQuery.put("name", name);
         DBCursor cursor = collection.find(searchQuery);
 
         while (cursor.hasNext()) {

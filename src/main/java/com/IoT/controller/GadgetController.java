@@ -1,6 +1,6 @@
 package com.IoT.controller;
 
-import com.IoT.Repository.GadgetDAO;
+import com.IoT.repository.GadgetDAO;
 import com.IoT.model.Gadget;
 import com.mongodb.client.MongoIterable;
 import org.springframework.http.HttpStatus;
@@ -13,18 +13,21 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/gadgets")
 public class GadgetController {
+    private final GadgetDAO dao;
+
+    public GadgetController(GadgetDAO dao) {
+        this.dao = dao;
+    }
 
     @GetMapping(produces = {MediaType.APPLICATION_JSON_VALUE})
     public MongoIterable<String> hello() {
-        GadgetDAO dao = new GadgetDAO();
         return dao.showAllDatabases();
     }
 
     @RequestMapping("/read-gadget")
     @GetMapping(produces = {MediaType.APPLICATION_JSON_VALUE})
-    public void readGadget() {
-        GadgetDAO dao = new GadgetDAO();
-        dao.readFromDatabase();
+    public void readGadget(@RequestParam String name) {
+        dao.readGadgetFromDatabase(name);
     }
 
     @RequestMapping("/insert")
@@ -32,7 +35,6 @@ public class GadgetController {
     @ResponseStatus(HttpStatus.CREATED)
     @SendTo("/topic/messages")
     public Gadget insertGadget(@RequestBody Gadget gadget) {
-        GadgetDAO dao = new GadgetDAO();
         return dao.insertGadget(gadget);
     }
 
