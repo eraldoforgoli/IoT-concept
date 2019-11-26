@@ -7,7 +7,6 @@ import java.util.ArrayList;
 
 public class Gadget {
     private String name;
-    @JsonProperty("gadgetType")
     private GadgetType gadgetType;
     private boolean state;
     private ArrayList<Room> rooms;

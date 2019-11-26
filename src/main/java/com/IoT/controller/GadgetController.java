@@ -1,11 +1,10 @@
 package com.IoT.controller;
 
-import com.IoT.repository.GadgetDAO;
 import com.IoT.model.Gadget;
+import com.IoT.repository.IGadgetDAO;
 import com.mongodb.client.MongoIterable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,21 +12,21 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/gadgets")
 public class GadgetController {
-    private final GadgetDAO dao;
+    private final IGadgetDAO dao;
 
-    public GadgetController(GadgetDAO dao) {
+    public GadgetController(IGadgetDAO dao) {
         this.dao = dao;
     }
 
     @GetMapping(produces = {MediaType.APPLICATION_JSON_VALUE})
-    public MongoIterable<String> hello() {
+    public MongoIterable<String> showAllDatabases() {
         return dao.showAllDatabases();
     }
 
     @RequestMapping("/read-gadget")
     @GetMapping(produces = {MediaType.APPLICATION_JSON_VALUE})
-    public void readGadget(@RequestParam String name) {
-        dao.readGadgetFromDatabase(name);
+    public Gadget readGadget(@RequestParam String name) {
+        return dao.readGadgetFromDatabase(name);
     }
 
     @RequestMapping("/insert")
@@ -36,12 +35,6 @@ public class GadgetController {
     @SendTo("/topic/messages")
     public Gadget insertGadget(@RequestBody Gadget gadget) {
         return dao.insertGadget(gadget);
-    }
-
-    @MessageMapping("/chat")
-    @SendTo("/topic/messages")
-    public Gadget send(Gadget gadget) throws Exception {
-        return gadget;
     }
 
 }
