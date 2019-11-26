@@ -1,6 +1,6 @@
 {
-  "name": "spring-boot-boilerplate",
-  "description": "Starter project to develop REST APIs with Spring Boot and Gradle",
-  "repository": "https://github.com/cristiangreco/spring-boot-boilerplate",
+  "name": "IoT Concept",
+  "description": "IoT Concept with Spring Boot and Gradle",
+  "repository": "https://github.com/eraldoforgoli/IoT-concept",
   "keywords": ["java", "spring", "spring-boot", "springboot", "gradle"]
 }
